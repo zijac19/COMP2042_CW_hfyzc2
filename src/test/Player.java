@@ -36,7 +36,7 @@ public class Player {
     private int min;
     private int max;
 
-
+dsfs
     public Player(Point ballPoint,int width,int height,Rectangle container) {
         this.ballPoint = ballPoint;
         moveAmount = 0;
