@@ -24,7 +24,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-
+import test.JukeBox;
 
 public class HomeMenu extends JComponent implements MouseListener, MouseMotionListener {
 
@@ -64,6 +64,7 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
 
     public HomeMenu(GameFrame owner,Dimension area){
 
+        JukeBox.init();
         this.setFocusable(true);
         this.requestFocusInWindow();
 
@@ -89,6 +90,9 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
         creditsFont = new Font("Monospaced",Font.PLAIN,10);
         buttonFont = new Font("Monospaced",Font.PLAIN,startButton.height-2);
 
+        JukeBox.load("/resources/Music/homemenu.mp3", "homemenu");
+        JukeBox.setVolume("homemenu", -10);
+        JukeBox.loop("homemenu", 1000, 1000, JukeBox.getFrames("homemenu") - 1000);
 
 
     }
@@ -252,7 +256,8 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
     public void mouseClicked(MouseEvent mouseEvent) {
         Point p = mouseEvent.getPoint();
         if(startButton.contains(p)){
-           owner.enableGameBoard();
+            JukeBox.stop("homemenu");
+            owner.enableGameBoard();
 
         }
         else if(menuButton.contains(p)){
