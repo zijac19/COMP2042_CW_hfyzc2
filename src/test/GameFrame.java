@@ -23,7 +23,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
-import test.JukeBox;
+import test.Music;
 
 public class GameFrame extends JFrame implements WindowFocusListener {
 
@@ -36,6 +36,8 @@ public class GameFrame extends JFrame implements WindowFocusListener {
 
     public GameFrame(){
         super();
+
+        Music.init();
 
         gaming = false;
 
@@ -58,17 +60,16 @@ public class GameFrame extends JFrame implements WindowFocusListener {
         this.pack();
         this.autoLocate();
         this.setVisible(true);
+
     }
 
     public void enableGameBoard(){
         this.dispose();
         this.remove(homeMenu);
-        JukeBox.load("/resources/Music/ingame.mp3", "ingame");
-        JukeBox.setVolume("ingame", -10);
-        JukeBox.loop("ingame", 1000, 1000, JukeBox.getFrames("ingame") - 1000);
         this.add(gameBoard,BorderLayout.CENTER);
         this.setUndecorated(false);
         initialize();
+        Music.GameStart();
         /*to avoid problems with graphics focus controller is added here*/
         this.addWindowFocusListener(this);
 
