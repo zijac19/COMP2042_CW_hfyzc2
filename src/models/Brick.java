@@ -248,6 +248,8 @@ abstract public class Brick  {
     public void impact(){
         strength--;
         broken = (strength == 0);
+        Music.Impact();
+        Music.BrickCrack();
     }
 
 

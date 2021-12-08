@@ -1,8 +1,10 @@
 package models;
 
 import handlers.JukeBox;
+import main.Settings;
 
 public class Music {
+    private static float vol = Settings.Volume();
 
     public static void init() {
         JukeBox.init();
@@ -12,8 +14,13 @@ public class Music {
         JukeBox.load("/resources/Music/ingame.mp3", "ingame");
 
         //set background music
-        JukeBox.setVolume("homemenu", -10);
-        JukeBox.setVolume("ingame", -10);
+        JukeBox.setVolume("homemenu", vol);
+        JukeBox.setVolume("ingame", vol);
+
+        //load SFX music
+        JukeBox.load("/resources/SFX/impact.wav", "impact");
+        JukeBox.load("/resources/SFX/crack.wav", "crack");
+        JukeBox.load("/resources/SFX/destroy.wav", "destroy");
     }
 
     public static void HomeStart() {
@@ -27,4 +34,10 @@ public class Music {
     }
 
     public static void GameEnd() {JukeBox.stop("ingame");}
+
+    public static void Impact() {JukeBox.play("impact");}
+
+    public static void BrickCrack() {JukeBox.play("crack");}
+
+    public static void BrickDestroy() {JukeBox.play("destroy");}
 }

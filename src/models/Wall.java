@@ -181,15 +181,18 @@ public class Wall {
 
     public void findImpacts(){
         if(player.impact(ball)){
+            Music.Impact();
             ball.reverseY();
         }
         else if(impactWall()){
             /*for efficiency reverse is done into method impactWall
             * because for every brick program checks for horizontal and vertical impacts
             */
+            Music.BrickDestroy();
             brickCount--;
         }
         else if(impactBorder()) {
+            Music.Impact();
             ball.reverseX();
         }
         else if(ball.getPosition().getY() < area.getY()){
