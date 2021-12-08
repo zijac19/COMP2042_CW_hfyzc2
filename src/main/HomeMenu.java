@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import test.Music;
+import models.Music;
 
 public class HomeMenu extends JComponent implements MouseListener, MouseMotionListener {
 
@@ -247,6 +247,14 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
 
     }
 
+    private void repaintStart() {
+        repaint(startButton.x,startButton.y,startButton.width+1,startButton.height+1);
+    }
+
+    private void repaintMenu() {
+        repaint(menuButton.x,menuButton.y,menuButton.width+1,menuButton.height+1);
+    }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         Point p = mouseEvent.getPoint();
@@ -312,4 +320,5 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
             this.setCursor(Cursor.getDefaultCursor());
 
     }
+
 }

@@ -15,12 +15,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package test;
+package main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;
+
+import models.Music;
+import models.Wall;
+import models.Player;
+import models.Brick;
+import models.Ball;
 
 
 
@@ -98,7 +104,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
                 }
                 else{
                     message = "ALL WALLS DESTROYED";
-                    JukeBox.stop("ingame");
+                    Music.GameEnd();
                     gameTimer.stop();
                 }
             }

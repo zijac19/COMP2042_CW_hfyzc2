@@ -1,6 +1,6 @@
-package test;
+package models;
 
-import test.JukeBox;
+import handlers.JukeBox;
 
 public class Music {
 

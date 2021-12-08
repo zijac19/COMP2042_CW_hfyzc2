@@ -1,4 +1,4 @@
-package test;
+package handlers;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
