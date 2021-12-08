@@ -98,6 +98,7 @@ public class GameBoard extends JComponent implements KeyListener,MouseListener,M
                 }
                 else{
                     message = "ALL WALLS DESTROYED";
+                    JukeBox.stop("ingame");
                     gameTimer.stop();
                 }
             }
