@@ -53,6 +53,7 @@ public class SteelBrick extends Brick {
     public  boolean setImpact(Point2D point , int dir){
         if(super.isBroken())
             return false;
+        Music.Impact();
         impact();
         return  super.isBroken();
     }
