@@ -19,15 +19,15 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+
 import models.Music;
+import handlers.MouseHandler;
 
-public class HomeMenu extends JComponent implements MouseListener, MouseMotionListener {
+public class HomeMenu extends JComponent{
 
+    private static final Dimension area = new Dimension(483, 473);
     private static final String GREETINGS = "Welcome to:";
     private static final String GAME_TITLE = "Brick Destroy";
     private static final String CREDITS = "Version 0.1";
@@ -43,50 +43,38 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
     private static final int BORDER_SIZE = 5;
     private static final float[] DASHES = {12,6};
 
-    private Rectangle menuFace;
-    private Rectangle startButton;
-    private Rectangle menuButton;
+    private final Rectangle menuFace;
+    private final Rectangle startButton;
+    private final Rectangle exitButton;
 
 
-    private BasicStroke borderStoke;
-    private BasicStroke borderStoke_noDashes;
+    private final BasicStroke borderStoke;
+    private final BasicStroke borderStoke_noDashes;
 
-    private Font greetingsFont;
-    private Font gameTitleFont;
-    private Font creditsFont;
-    private Font buttonFont;
+    private final Font greetingsFont;
+    private final Font gameTitleFont;
+    private final Font creditsFont;
+    private final Font buttonFont;
 
-    private GameFrame owner;
+   // private GameFrame owner;
 
     private boolean startClicked;
     private boolean menuClicked;
 
 
-    public HomeMenu(GameFrame owner,Dimension area){
-
-        this.setFocusable(true);
-        this.requestFocusInWindow();
-
-        this.addMouseListener(this);
-        this.addMouseMotionListener(this);
-
-        this.owner = owner;
-
-
-
+    public HomeMenu(){
         menuFace = new Rectangle(new Point(0,0),area);
-        this.setPreferredSize(area);
 
         Dimension btnDim = new Dimension(area.width / 3, area.height / 12);
         startButton = new Rectangle(btnDim);
-        menuButton = new Rectangle(btnDim);
+        exitButton = new Rectangle(btnDim);
 
         borderStoke = new BasicStroke(BORDER_SIZE,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND,0,DASHES,0);
         borderStoke_noDashes = new BasicStroke(BORDER_SIZE,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
 
         greetingsFont = new Font("Noto Mono",Font.PLAIN,25);
         gameTitleFont = new Font("Noto Mono",Font.BOLD,40);
-        creditsFont = new Font("Monospaced",Font.PLAIN,10);
+        creditsFont = new Font("Monospaced",Font.PLAIN,15);
         buttonFont = new Font("Monospaced",Font.PLAIN,startButton.height-2);
 
         Music.HomeStart();
@@ -220,28 +208,28 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
 
         y *= 1.2;
 
-        menuButton.setLocation(x,y);
+        exitButton.setLocation(x,y);
 
 
 
 
-        x = (int)(menuButton.getWidth() - mTxtRect.getWidth()) / 2;
-        y = (int)(menuButton.getHeight() - mTxtRect.getHeight()) / 2;
+        x = (int)(exitButton.getWidth() - mTxtRect.getWidth()) / 2;
+        y = (int)(exitButton.getHeight() - mTxtRect.getHeight()) / 2;
 
-        x += menuButton.x;
-        y += menuButton.y + (startButton.height * 0.9);
+        x += exitButton.x;
+        y += exitButton.y + (startButton.height * 0.9);
 
         if(menuClicked){
             Color tmp = g2d.getColor();
 
             g2d.setColor(CLICKED_BUTTON_COLOR);
-            g2d.draw(menuButton);
+            g2d.draw(exitButton);
             g2d.setColor(CLICKED_TEXT);
             g2d.drawString(MENU_TEXT,x,y);
             g2d.setColor(tmp);
         }
         else{
-            g2d.draw(menuButton);
+            g2d.draw(exitButton);
             g2d.drawString(MENU_TEXT,x,y);
         }
 
@@ -252,73 +240,42 @@ public class HomeMenu extends JComponent implements MouseListener, MouseMotionLi
     }
 
     private void repaintMenu() {
-        repaint(menuButton.x,menuButton.y,menuButton.width+1,menuButton.height+1);
+        repaint(exitButton.x,exitButton.y,exitButton.width+1,exitButton.height+1);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        Point p = mouseEvent.getPoint();
-        if(startButton.contains(p)){
-            Music.HomeEnd();
-            owner.enableGameBoard();
-
-        }
-        else if(menuButton.contains(p)){
-            System.out.println("Goodbye " + System.getProperty("user.name"));
-            System.exit(0);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-        Point p = mouseEvent.getPoint();
-        if(startButton.contains(p)){
-            startClicked = true;
-            repaint(startButton.x,startButton.y,startButton.width+1,startButton.height+1);
-
-        }
-        else if(menuButton.contains(p)){
-            menuClicked = true;
-            repaint(menuButton.x,menuButton.y,menuButton.width+1,menuButton.height+1);
-        }
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-        if(startClicked ){
-            startClicked = false;
-            repaint(startButton.x,startButton.y,startButton.width+1,startButton.height+1);
-        }
-        else if(menuClicked){
-            menuClicked = false;
-            repaint(menuButton.x,menuButton.y,menuButton.width+1,menuButton.height+1);
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
-
-
-    @Override
-    public void mouseDragged(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-        Point p = mouseEvent.getPoint();
-        if(startButton.contains(p) || menuButton.contains(p))
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        else
-            this.setCursor(Cursor.getDefaultCursor());
-
+    public void mouseEvent() {
+            if(startButton.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
+                MouseHandler.MOUSECLICKED = false;
+                Music.HomeEnd();
+                Controller.switchStates(Controller.STATE.GAME);
+            }
+            else if(exitButton.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
+                MouseHandler.MOUSECLICKED = false;
+                System.out.println("Goodbye " + System.getProperty("user.name"));
+                System.exit(0);
+            }
+            else if(startButton.contains(Controller.mousePoint) && MouseHandler.hasPressed) {
+                startClicked = true;
+                repaintStart();
+            }
+            else if(exitButton.contains(Controller.mousePoint) && MouseHandler.hasPressed){
+                menuClicked = true;
+                repaintMenu();
+            }
+            else if(startClicked && MouseHandler.hasReleased) {
+                startClicked = false;
+                repaintStart();
+            }
+            else if(menuClicked && MouseHandler.hasReleased){
+                menuClicked = false;
+                repaintMenu();
+            }
+            if(startButton.contains(Controller.mousePoint) || exitButton.contains(Controller.mousePoint)) {
+                Frame.handcursor();
+            }
+            else {
+                Frame.defaultcursor();
+            }
     }
 
 }

@@ -13,7 +13,7 @@ public class Music {
         JukeBox.load("/resources/Music/homemenu.mp3", "homemenu");
         JukeBox.load("/resources/Music/ingame.mp3", "ingame");
 
-        //set background music
+        //set background music volume
         JukeBox.setVolume("homemenu", vol);
         JukeBox.setVolume("ingame", vol);
 
@@ -21,6 +21,9 @@ public class Music {
         JukeBox.load("/resources/SFX/impact.wav", "impact");
         JukeBox.load("/resources/SFX/crack.wav", "crack");
         JukeBox.load("/resources/SFX/destroy.wav", "destroy");
+
+        //set SFX music volume
+        JukeBox.setVolume("impact", 0);
     }
 
     public static void HomeStart() {
