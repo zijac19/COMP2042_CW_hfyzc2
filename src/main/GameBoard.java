@@ -23,7 +23,6 @@ import java.awt.font.FontRenderContext;
 
 import handlers.KeyHandler;
 import handlers.MouseHandler;
-import handlers.WindowHandler;
 import models.Music;
 import models.Wall;
 import models.Player;
@@ -54,6 +53,7 @@ public class GameBoard extends JPanel {
     private final Wall wall;
 
     private String message;
+    private String message2;
     private String status;
 
     public static boolean showPauseMenu;
@@ -69,9 +69,6 @@ public class GameBoard extends JPanel {
     private boolean restartClicked;
     private boolean exitClicked;
 
-    private DebugConsole debugConsole;
-
-
     public GameBoard(){
         super();
 
@@ -82,10 +79,9 @@ public class GameBoard extends JPanel {
 
         InGameBackground = new ImageLoader(ImageLoader.ingamebackground).getImage();
         message = "";
+        message2 = "";
         status = "";
         wall = new Wall(new Rectangle(0,0,DEF_WIDTH,DEF_HEIGHT),30,3,3,new Point(250,430));
-
-        //debugConsole = new DebugConsole(owner,wall,this);
 
         //initialize the first level
         wall.nextLevel();
@@ -98,11 +94,13 @@ public class GameBoard extends JPanel {
             wall.move();
             wall.findImpacts();
             message = "";
-            status = String.format("Bricks: %d Balls %d",wall.getBrickCount(),wall.getBallCount());
+            message2 = "";
+            status = String.format("Score: %d Bricks: %d Balls %d",wall.getScore(),wall.getBrickCount(),wall.getBallCount());
             if(wall.isBallLost()){
                 if(wall.ballEnd()){
-                    wall.wallReset();
                     message = "     Game Over";
+                    message2 = String.format("  Highest Score: %d",wall.getScore());
+                    wall.wallReset();
                 }
                 wall.ballReset();
                 gameTimer.stop();
@@ -110,6 +108,7 @@ public class GameBoard extends JPanel {
             else if(wall.isDone()){
                 if(wall.hasLevel()){
                     message = "Go to Next Level";
+                    message2 = String.format("  Highest Score: %d",wall.getScore());
                     gameTimer.stop();
                     wall.ballReset();
                     wall.wallReset();
@@ -117,6 +116,7 @@ public class GameBoard extends JPanel {
                 }
                 else{
                     message = "ALL WALLS DESTROYED";
+                    message2 = String.format("  Highest Score: %d",wall.getScore());
                     Music.GameEnd();
                     gameTimer.stop();
                 }
@@ -135,6 +135,10 @@ public class GameBoard extends JPanel {
         g2d.setColor(Color.WHITE);
         g.setFont(Controller.smallFont);
         g2d.drawString(message,180,225);
+
+        g2d.setColor(Color.WHITE);
+        g.setFont(Controller.smallFont);
+        g2d.drawString(message2,180,265);
 
         g2d.setColor(Color.WHITE);
         g.setFont(Controller.smallFont);
@@ -325,11 +329,9 @@ public class GameBoard extends JPanel {
             repaint();
             if (showPauseMenu){Music.PauseMenu();}
             else {Music.PauseEnd();}
+            message = "        Paused";
             gameTimer.stop();
             KeyHandler.ESCAPE = false;
-        }
-        if (KeyHandler.F1) {
-            debugConsole.setVisible(true);
         }
     }
 
@@ -391,12 +393,4 @@ public class GameBoard extends JPanel {
             Frame.defaultcursor();
         }
     }
-
-    public void onLostFocus(){
-        if (WindowHandler.lostfocus && gaming)
-            gameTimer.stop();
-            message = "Focus Lost";
-            repaint();
-    }
-
 }

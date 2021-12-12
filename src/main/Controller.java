@@ -25,7 +25,6 @@ public class Controller extends JPanel implements Runnable {
 	private static HomeMenu homeMenu;
 	
 	public static Point mousePoint = new Point(0, 0);
-	//public static Font bigFont = new Font("TimesRoman", Font.PLAIN, 25);
 	public static Font smallFont = new Font("TimesRoman", Font.PLAIN, 18);
 
 	private boolean running = true;

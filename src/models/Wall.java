@@ -21,8 +21,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import models.Brick;
-
 public class Wall {
 
     private static final int LEVELS_COUNT = 4;
@@ -45,6 +43,7 @@ public class Wall {
     private int brickCount;
     private int ballCount;
     private boolean ballLost;
+    private int score =0;
 
     public Wall(Rectangle drawArea, int brickCount, int lineCount, double brickDimensionRatio, Point ballPos){
 
@@ -190,6 +189,7 @@ public class Wall {
             */
             Music.BrickDestroy();
             brickCount--;
+            score++;
         }
         else if(impactBorder()) {
             Music.Impact();
@@ -236,6 +236,10 @@ public class Wall {
         return brickCount;
     }
 
+    public int getScore(){
+        return score;
+    }
+
     public int getBallCount(){
         return ballCount;
     }
@@ -264,6 +268,7 @@ public class Wall {
             b.repair();
         brickCount = bricks.length;
         ballCount = 3;
+        score = 0;
     }
 
     public boolean ballEnd(){

@@ -1,7 +1,5 @@
 package handlers;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -11,7 +9,6 @@ import main.Controller;
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
     public static boolean MOUSECLICKED = false;
-    public static boolean MOUSEDOWN = false;
     public static boolean hasPressed = false;
     public static boolean hasReleased = false;
 
@@ -20,7 +17,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-//		System.out.println("X: " + e.getX() + "\nY: " + e.getY() + "\n");
         Controller.mousePoint = e.getPoint();
         MOUSECLICKED = true;
     }
