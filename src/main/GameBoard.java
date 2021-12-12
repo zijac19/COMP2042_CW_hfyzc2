@@ -42,7 +42,7 @@ public class GameBoard extends JPanel {
     private static final String PAUSE = "Pause Menu";
     private static final int TEXT_SIZE = 30;
     private static final Color MENU_COLOR = new Color(0,255,0);
-
+    private static final Color CLICKED_TEXT = Color.WHITE;
 
     private static final int DEF_WIDTH = 500;
     private static final int DEF_HEIGHT = 513;
@@ -64,6 +64,10 @@ public class GameBoard extends JPanel {
     private Rectangle exitButtonRect;
     private Rectangle restartButtonRect;
     private int strLen;
+
+    private boolean continueClicked;
+    private boolean restartClicked;
+    private boolean exitClicked;
 
     private DebugConsole debugConsole;
 
@@ -98,7 +102,7 @@ public class GameBoard extends JPanel {
             if(wall.isBallLost()){
                 if(wall.ballEnd()){
                     wall.wallReset();
-                    message = "Game over";
+                    message = "     Game Over";
                 }
                 wall.ballReset();
                 gameTimer.stop();
@@ -242,6 +246,16 @@ public class GameBoard extends JPanel {
 
         g2d.drawString(CONTINUE,x,y);
 
+        if(continueClicked) {
+            Color tmp = g2d.getColor();
+            g2d.setColor(CLICKED_TEXT);
+            g2d.drawString(CONTINUE,x,y);
+            g2d.setColor(tmp);
+        }
+        else {
+            g2d.drawString(CONTINUE,x,y);
+        }
+
         y *= 2;
 
         if(restartButtonRect == null){
@@ -250,6 +264,16 @@ public class GameBoard extends JPanel {
         }
 
         g2d.drawString(RESTART,x,y);
+
+        if(restartClicked) {
+            Color tmp = g2d.getColor();
+            g2d.setColor(CLICKED_TEXT);
+            g2d.drawString(RESTART,x,y);
+            g2d.setColor(tmp);
+        }
+        else {
+            g2d.drawString(RESTART,x,y);
+        }
 
         y *= 3.0/2;
 
@@ -260,7 +284,15 @@ public class GameBoard extends JPanel {
 
         g2d.drawString(EXIT,x,y);
 
-
+        if(exitClicked) {
+            Color tmp = g2d.getColor();
+            g2d.setColor(CLICKED_TEXT);
+            g2d.drawString(EXIT,x,y);
+            g2d.setColor(tmp);
+        }
+        else {
+            g2d.drawString(EXIT,x,y);
+        }
 
         g2d.setFont(tmpFont);
         g2d.setColor(tmpColor);
@@ -291,6 +323,8 @@ public class GameBoard extends JPanel {
         if (KeyHandler.ESCAPE) {
             showPauseMenu = !showPauseMenu;
             repaint();
+            if (showPauseMenu){Music.PauseMenu();}
+            else {Music.PauseEnd();}
             gameTimer.stop();
             KeyHandler.ESCAPE = false;
         }
@@ -300,10 +334,12 @@ public class GameBoard extends JPanel {
     }
 
     public void mouseEvent() {
-        if (showPauseMenu) {
+        if(showPauseMenu) {
             if(continueButtonRect.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
                 showPauseMenu = false;
+                continueClicked = false;
                 MouseHandler.MOUSECLICKED = false;
+                Music.PauseEnd();
                 repaint();
             }
             else if(restartButtonRect.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
@@ -311,11 +347,37 @@ public class GameBoard extends JPanel {
                 wall.ballReset();
                 wall.wallReset();
                 showPauseMenu = false;
+                restartClicked = false;
                 MouseHandler.MOUSECLICKED = false;
+                Music.PauseEnd();
                 repaint();
             }
             else if(exitButtonRect.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED) {
                 System.exit(0);
+            }
+            else if(continueButtonRect.contains(Controller.mousePoint) && MouseHandler.hasPressed){
+                continueClicked = true;
+                repaint();
+            }
+            else if(continueButtonRect.contains(Controller.mousePoint) && MouseHandler.hasReleased){
+                continueClicked = false;
+                repaint();
+            }
+            else if(restartButtonRect.contains(Controller.mousePoint) && MouseHandler.hasPressed){
+                restartClicked = true;
+                repaint();
+            }
+            else if(restartButtonRect.contains(Controller.mousePoint) && MouseHandler.hasReleased){
+                restartClicked = false;
+                repaint();
+            }
+            else if(exitButtonRect.contains(Controller.mousePoint) && MouseHandler.hasPressed){
+                exitClicked = true;
+                repaint();
+            }
+            else if(exitButtonRect.contains(Controller.mousePoint) && MouseHandler.hasReleased){
+                exitClicked = false;
+                repaint();
             }
         }
 

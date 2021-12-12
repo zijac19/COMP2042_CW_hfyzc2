@@ -21,6 +21,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import models.Music;
 import handlers.MouseHandler;
@@ -30,9 +33,10 @@ public class HomeMenu extends JComponent{
     private static final Dimension area = new Dimension(483, 473);
     private static final String GREETINGS = "Welcome to:";
     private static final String GAME_TITLE = "Brick Destroy";
-    private static final String CREDITS = "Version 0.1";
+    private static final String CREDITS = "Version 2.0";
     private static final String START_TEXT = "Start";
-    private static final String MENU_TEXT = "Exit";
+    private static final String SUPPORT_TEXT = "Support";
+    private static final String EXIT_TEXT = "Exit";
 
     private static final Color BG_COLOR = Color.GREEN.darker();
     private static final Color BORDER_COLOR = new Color(200,8,21); //Venetian Red
@@ -45,6 +49,7 @@ public class HomeMenu extends JComponent{
 
     private final Rectangle menuFace;
     private final Rectangle startButton;
+    private final Rectangle supportButton;
     private final Rectangle exitButton;
 
 
@@ -59,7 +64,8 @@ public class HomeMenu extends JComponent{
    // private GameFrame owner;
 
     private boolean startClicked;
-    private boolean menuClicked;
+    private boolean supportClicked;
+    private boolean exitClicked;
 
 
     public HomeMenu(){
@@ -67,6 +73,7 @@ public class HomeMenu extends JComponent{
 
         Dimension btnDim = new Dimension(area.width / 3, area.height / 12);
         startButton = new Rectangle(btnDim);
+        supportButton = new Rectangle(btnDim);
         exitButton = new Rectangle(btnDim);
 
         borderStoke = new BasicStroke(BORDER_SIZE,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND,0,DASHES,0);
@@ -172,12 +179,13 @@ public class HomeMenu extends JComponent{
         FontRenderContext frc = g2d.getFontRenderContext();
 
         Rectangle2D txtRect = buttonFont.getStringBounds(START_TEXT,frc);
-        Rectangle2D mTxtRect = buttonFont.getStringBounds(MENU_TEXT,frc);
+        Rectangle2D stxtRect = buttonFont.getStringBounds(SUPPORT_TEXT,frc);
+        Rectangle2D eTxtRect = buttonFont.getStringBounds(EXIT_TEXT,frc);
 
         g2d.setFont(buttonFont);
 
         int x = (menuFace.width - startButton.width) / 2;
-        int y =(int) ((menuFace.height - startButton.height) * 0.8);
+        int y =(int) ((menuFace.height - startButton.height) * 0.64);
 
         startButton.setLocation(x,y);
 
@@ -186,7 +194,6 @@ public class HomeMenu extends JComponent{
 
         x += startButton.x;
         y += startButton.y + (startButton.height * 0.9);
-
 
 
 
@@ -206,6 +213,37 @@ public class HomeMenu extends JComponent{
         x = startButton.x;
         y = startButton.y;
 
+        y *= 1.25;
+
+        supportButton.setLocation(x,y);
+
+
+
+
+        x = (int)(supportButton.getWidth() - stxtRect.getWidth()) / 2;
+        y = (int)(supportButton.getHeight() - stxtRect.getHeight()) / 2;
+
+        x += supportButton.x;
+        y += supportButton.y + (supportButton.height * 0.9);
+
+        if(supportClicked){
+            Color tmp = g2d.getColor();
+
+            g2d.setColor(CLICKED_BUTTON_COLOR);
+            g2d.draw(supportButton);
+            g2d.setColor(CLICKED_TEXT);
+            g2d.drawString(SUPPORT_TEXT,x,y);
+            g2d.setColor(tmp);
+
+        }
+        else{
+            g2d.draw(supportButton);
+            g2d.drawString(SUPPORT_TEXT,x,y);
+        }
+
+        x = supportButton.x;
+        y = supportButton.y;
+
         y *= 1.2;
 
         exitButton.setLocation(x,y);
@@ -213,34 +251,27 @@ public class HomeMenu extends JComponent{
 
 
 
-        x = (int)(exitButton.getWidth() - mTxtRect.getWidth()) / 2;
-        y = (int)(exitButton.getHeight() - mTxtRect.getHeight()) / 2;
+        x = (int)(exitButton.getWidth() - eTxtRect.getWidth()) / 2;
+        y = (int)(exitButton.getHeight() - eTxtRect.getHeight()) / 2;
 
         x += exitButton.x;
         y += exitButton.y + (startButton.height * 0.9);
 
-        if(menuClicked){
+        if(exitClicked){
             Color tmp = g2d.getColor();
 
             g2d.setColor(CLICKED_BUTTON_COLOR);
             g2d.draw(exitButton);
             g2d.setColor(CLICKED_TEXT);
-            g2d.drawString(MENU_TEXT,x,y);
+            g2d.drawString(EXIT_TEXT,x,y);
             g2d.setColor(tmp);
+
         }
         else{
             g2d.draw(exitButton);
-            g2d.drawString(MENU_TEXT,x,y);
+            g2d.drawString(EXIT_TEXT,x,y);
         }
 
-    }
-
-    private void repaintStart() {
-        repaint(startButton.x,startButton.y,startButton.width+1,startButton.height+1);
-    }
-
-    private void repaintMenu() {
-        repaint(exitButton.x,exitButton.y,exitButton.width+1,exitButton.height+1);
     }
 
     public void mouseEvent() {
@@ -249,6 +280,16 @@ public class HomeMenu extends JComponent{
                 Music.HomeEnd();
                 Controller.switchStates(Controller.STATE.GAME);
             }
+            else if(supportButton.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
+                MouseHandler.MOUSECLICKED = false;
+                try {
+                    Desktop desktop = java.awt.Desktop.getDesktop();
+                    URI oURL = new URI("https://github.com/zijac19/COMP2042_CW_hfyzc2");
+                    desktop.browse(oURL);
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
             else if(exitButton.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
                 MouseHandler.MOUSECLICKED = false;
                 System.out.println("Goodbye " + System.getProperty("user.name"));
@@ -256,21 +297,29 @@ public class HomeMenu extends JComponent{
             }
             else if(startButton.contains(Controller.mousePoint) && MouseHandler.hasPressed) {
                 startClicked = true;
-                repaintStart();
+                repaint(startButton.x,startButton.y,startButton.width+1,startButton.height+1);
+            }
+            else if(supportButton.contains(Controller.mousePoint) && MouseHandler.hasPressed) {
+                supportClicked = true;
+                repaint(supportButton.x,supportButton.y,supportButton.width+1,supportButton.height+1);
             }
             else if(exitButton.contains(Controller.mousePoint) && MouseHandler.hasPressed){
-                menuClicked = true;
-                repaintMenu();
+                exitClicked = true;
+                repaint(exitButton.x,exitButton.y,exitButton.width+1,exitButton.height+1);
             }
             else if(startClicked && MouseHandler.hasReleased) {
                 startClicked = false;
-                repaintStart();
+                repaint(startButton.x,startButton.y,startButton.width+1,startButton.height+1);
             }
-            else if(menuClicked && MouseHandler.hasReleased){
-                menuClicked = false;
-                repaintMenu();
+            else if(supportClicked && MouseHandler.hasReleased) {
+                supportClicked = false;
+                repaint(supportButton.x,supportButton.y,supportButton.width+1,supportButton.height+1);
             }
-            if(startButton.contains(Controller.mousePoint) || exitButton.contains(Controller.mousePoint)) {
+            else if(exitClicked && MouseHandler.hasReleased){
+                exitClicked = false;
+                repaint(exitButton.x,exitButton.y,exitButton.width+1,exitButton.height+1);
+            }
+            if(startButton.contains(Controller.mousePoint) || supportButton.contains(Controller.mousePoint) || exitButton.contains(Controller.mousePoint)) {
                 Frame.handcursor();
             }
             else {
