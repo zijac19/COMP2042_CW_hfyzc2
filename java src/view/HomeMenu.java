@@ -30,8 +30,15 @@ import controllers.MouseHandler;
 import main.Controller;
 import main.Frame;
 
+/**
+ *This class is the home menu scene
+ *
+ * Refactor by
+ * @author Chang Zi Jac
+ */
 public class HomeMenu extends JComponent{
 
+    // initialize the variables
     private static final Dimension area = new Dimension(483, 473);
     private static final String GREETINGS = "Welcome to:";
     private static final String GAME_TITLE = "Brick Destroy";
@@ -63,13 +70,13 @@ public class HomeMenu extends JComponent{
     private final Font creditsFont;
     private final Font buttonFont;
 
-   // private GameFrame owner;
-
     private boolean startClicked;
     private boolean supportClicked;
     private boolean exitClicked;
 
-
+    /**
+     * This method initialize the home menu
+     */
     public HomeMenu(){
         menuFace = new Rectangle(new Point(0,0),area);
 
@@ -89,12 +96,18 @@ public class HomeMenu extends JComponent{
         Music.HomeStart();
     }
 
-
+    /**
+     * This method paint the display
+     * @param g
+     */
     public void paint(Graphics g){
         drawMenu((Graphics2D)g);
     }
 
-
+    /**
+     * This method display the home menu background
+     * @param g2d
+     */
     public void drawMenu(Graphics2D g2d){
 
         drawContainer(g2d);
@@ -122,6 +135,10 @@ public class HomeMenu extends JComponent{
         g2d.setColor(prevColor);
     }
 
+    /**
+     * This method display the border of the home menu
+     * @param g2d
+     */
     private void drawContainer(Graphics2D g2d){
         Color prev = g2d.getColor();
 
@@ -143,6 +160,10 @@ public class HomeMenu extends JComponent{
         g2d.setColor(prev);
     }
 
+    /**
+     * This method display the menu text
+     * @param g2d
+     */
     private void drawText(Graphics2D g2d){
 
         g2d.setColor(TEXT_COLOR);
@@ -176,6 +197,10 @@ public class HomeMenu extends JComponent{
 
     }
 
+    /**
+     * This method display the button
+     * @param g2d
+     */
     private void drawButton(Graphics2D g2d){
 
         FontRenderContext frc = g2d.getFontRenderContext();
@@ -276,6 +301,9 @@ public class HomeMenu extends JComponent{
 
     }
 
+    /**
+     * This method control the mouse event
+     */
     public void mouseEvent() {
             if(startButton.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){
                 MouseHandler.MOUSECLICKED = false;

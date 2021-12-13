@@ -23,13 +23,26 @@ import java.awt.*;
 import controllers.KeyHandler;
 import controllers.MouseHandler;
 
+/**
+ * This class initialize and set up the windows and cursor type
+ * This class also the main class for execute the programme
+ *
+ * Refactor by
+ * @author Chang Zi Jac
+ */
+
 public class Frame extends JFrame{
 
+	//initialize variables
 	public static JFrame frame;
 	
 	public static int WIDTH = 500;
 	public static int HEIGHT = 513;
-	
+
+	/**
+	 * This method initialize the Home Menu window
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		frame = new JFrame("Brick Destroy");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,6 +54,9 @@ public class Frame extends JFrame{
 		frame.setVisible(true);
 	}
 
+	/**
+	 * This method initialize the Game Menu window
+	 */
 	public static void windowsize() {
 		frame.setTitle("Brick Destroy");
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -56,10 +72,16 @@ public class Frame extends JFrame{
 		defaultcursor();
 	}
 
+	/**
+	 * This method set the cursor to hand cursor pattern
+	 */
 	public static void handcursor() {
 		frame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
+	/**
+	 * This method set the cursor to default cursor pattern
+	 */
 	public static void defaultcursor() {
 		frame.setCursor(Cursor.getDefaultCursor());
 	}

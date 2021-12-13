@@ -34,7 +34,14 @@ import main.Frame;
 
 import static main.Frame.frame;
 
+/**
+ * This class is the in-game scene
+ *
+ * Refactor by
+ * @author Chang Zi Jac
+ */
 public class GameBoard extends JPanel {
+    //initialize variables
     private static boolean gaming = false;
 
     private static final String CONTINUE = "Continue";
@@ -71,6 +78,9 @@ public class GameBoard extends JPanel {
     private boolean restartClicked;
     private boolean exitClicked;
 
+    /**
+     * This method initialize the scene status
+     */
     public GameBoard(){
         super();
 
@@ -90,6 +100,9 @@ public class GameBoard extends JPanel {
         gametime();
     }
 
+    /**
+     * This method set the game timer
+     */
     private void gametime() {
         gaming = true;
         gameTimer = new Timer(10,e ->{
@@ -128,6 +141,11 @@ public class GameBoard extends JPanel {
         });
     }
 
+    /**
+     * This method paint the display
+     *
+     * @param g
+     */
     public void paint(Graphics g){
 
         Graphics2D g2d = (Graphics2D) g;
@@ -157,10 +175,19 @@ public class GameBoard extends JPanel {
         Toolkit.getDefaultToolkit().sync();
     }
 
+    /**
+     * This method paint the background
+     * @param g2d
+     */
     private void clear(Graphics g2d){
         g2d.drawImage(InGameBackground, 0, 0, DEF_WIDTH, DEF_HEIGHT, null);
     }
 
+    /**
+     * This method display the brick
+     * @param brick
+     * @param g2d
+     */
     private void drawBrick(Brick brick,Graphics2D g2d){
         Color tmp = g2d.getColor();
 
@@ -174,6 +201,11 @@ public class GameBoard extends JPanel {
         g2d.setColor(tmp);
     }
 
+    /**
+     * This method display the ball
+     * @param ball
+     * @param g2d
+     */
     private void drawBall(Ball ball,Graphics2D g2d){
         Color tmp = g2d.getColor();
 
@@ -188,6 +220,11 @@ public class GameBoard extends JPanel {
         g2d.setColor(tmp);
     }
 
+    /**
+     * This method display the player
+     * @param p
+     * @param g2d
+     */
     private void drawPlayer(Player p,Graphics2D g2d){
         Color tmp = g2d.getColor();
 
@@ -201,12 +238,20 @@ public class GameBoard extends JPanel {
         g2d.setColor(tmp);
     }
 
+    /**
+     * This method dispay the pause menu
+     * @param g2d
+     */
     public void drawMenu(Graphics2D g2d){
         obscureGameBoard(g2d);
         drawPauseMenu(g2d);
         Toolkit.getDefaultToolkit().sync();
     }
 
+    /**
+     * This method display the pause menu background
+     * @param g2d
+     */
     private void obscureGameBoard(Graphics2D g2d){
 
         Composite tmp = g2d.getComposite();
@@ -222,6 +267,10 @@ public class GameBoard extends JPanel {
         g2d.setColor(tmpColor);
     }
 
+    /**
+     * This method display the pause menu text
+     * @param g2d
+     */
     private void drawPauseMenu(Graphics2D g2d){
         Font tmpFont = g2d.getFont();
         Color tmpColor = g2d.getColor();
@@ -304,6 +353,9 @@ public class GameBoard extends JPanel {
         g2d.setColor(tmpColor);
     }
 
+    /**
+     * This method control the key event
+     */
     public void keyEvent() {
         if (KeyHandler.keyreleased) {
             wall.player.stop();
@@ -337,6 +389,9 @@ public class GameBoard extends JPanel {
         }
     }
 
+    /**
+     * This method control the mouse event
+     */
     public void mouseEvent() {
         if(showPauseMenu) {
             if(continueButtonRect.contains(Controller.mousePoint) && MouseHandler.MOUSECLICKED){

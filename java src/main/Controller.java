@@ -9,9 +9,15 @@ import controllers.MouseHandler;
 import models.Music;
 import view.*;
 
-
+/**
+ * This class controls the scene flow and display the scene
+ *
+ * Refactor by
+ * @author Chang Zi  Jac
+ */
 public class Controller extends JPanel implements Runnable {
 
+	//initialize the variables
 	public enum STATE{
 		MENU,
 		GAME,
@@ -33,13 +39,19 @@ public class Controller extends JPanel implements Runnable {
 	private long lastTime;
 	private double fps;
 
-
+	/**
+	 * This method initializes the window and request focus on the window
+	 */
 	public Controller() {
 		super();
 		setPreferredSize(new Dimension(Frame.WIDTH, Frame.HEIGHT));
 		setFocusable(true);
 		requestFocus(true);
 	}
+
+	/**
+	 * This method start the thread
+	 */
 	public void addNotify() {
 		super.addNotify();
 		if (thread == null) {
@@ -47,6 +59,10 @@ public class Controller extends JPanel implements Runnable {
 			thread.start();
 		}
 	}
+
+	/**
+	 * This method initialize and prepare to import image and input
+	 */
 	private void init() {
 		image = new BufferedImage(Frame.WIDTH, Frame.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g2d = (Graphics2D) image.getGraphics();
@@ -57,6 +73,9 @@ public class Controller extends JPanel implements Runnable {
 		homeMenu = new HomeMenu();
 	}
 
+	/**
+	 * This method runs the thread
+	 */
 	public void run() {
 		init();
 		while (running) {
@@ -72,6 +91,9 @@ public class Controller extends JPanel implements Runnable {
 		}
 	}
 
+	/**
+	 * This method call the display method and input event method when switched the scene
+	 */
 	private void display() {
 		switch(state) {
 		case MENU:
@@ -93,7 +115,12 @@ public class Controller extends JPanel implements Runnable {
 		g2.drawImage(image, 0, 0, null);
 		g2.dispose();
 	}
-	
+
+	/**
+	 * This method create a new object of the scenes
+	 * This method starts playing the background music and calls the window initialization method
+	 * @param state
+	 */
 	public static void switchStates(STATE state) {
 		Controller.state = state;
 		if(state == STATE.MENU) {

@@ -21,10 +21,15 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-
+/**
+ *This class contains the details of the player
+ *
+ * Refactor by
+ * @author Chang Zi Jac
+ */
 public class Player {
 
-
+    // initialize the variables
     public static final Color BORDER_COLOR = Color.GREEN.darker().darker();
     public static final Color INNER_COLOR = Color.GREEN;
 
@@ -36,6 +41,13 @@ public class Player {
     private int min;
     private int max;
 
+    /**
+     * This method initialize the player
+     * @param ballPoint
+     * @param width
+     * @param height
+     * @param container
+     */
     public Player(Point ballPoint,int width,int height,Rectangle container) {
         this.ballPoint = ballPoint;
         moveAmount = 0;
@@ -45,15 +57,29 @@ public class Player {
 
     }
 
+    /**
+     * This method makes the shape of the player
+     * @param width
+     * @param height
+     * @return Rectangle(p,new Dimension(width,height))
+     */
     private Rectangle makeRectangle(int width,int height){
         Point p = new Point((int)(ballPoint.getX() - (width / 2)),(int)ballPoint.getY());
         return  new Rectangle(p,new Dimension(width,height));
     }
 
+    /**
+     * This method return the player's impact status
+     * @param b
+     * @return boolean
+     */
     public boolean impact(Ball b){
         return playerFace.contains(b.getPosition()) && playerFace.contains(b.down) ;
     }
 
+    /**
+     * This method calculate the player's move
+     */
     public void move(){
         double x = ballPoint.getX() + moveAmount;
         if(x < min || x > max)
@@ -62,22 +88,39 @@ public class Player {
         playerFace.setLocation(ballPoint.x - (int)playerFace.getWidth()/2,ballPoint.y);
     }
 
+    /**
+     * This method let the player move left
+     */
     public void moveLeft(){
         moveAmount = -DEF_MOVE_AMOUNT;
     }
 
+    /**
+     * This method let the player move right
+     */
     public void movRight(){
         moveAmount = DEF_MOVE_AMOUNT;
     }
 
+    /**
+     * This method let the player stop moving
+     */
     public void stop(){
         moveAmount = 0;
     }
 
+    /**
+     * This method get the player shape
+     * @return playerFace
+     */
     public Shape getPlayerFace(){
         return  playerFace;
     }
 
+    /**
+     * This method calculate the player's next position
+     * @param p
+     */
     public void moveTo(Point p){
         ballPoint.setLocation(p);
         playerFace.setLocation(ballPoint.x - (int)playerFace.getWidth()/2,ballPoint.y);
