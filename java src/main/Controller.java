@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import controllers.KeyHandler;
 import controllers.MouseHandler;
 import models.Music;
+import view.*;
 
 
 public class Controller extends JPanel implements Runnable {
