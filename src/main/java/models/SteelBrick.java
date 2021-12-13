@@ -21,9 +21,14 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-
+/**
+ *This class contains the details of the steel brick
+ *
+ * Refactor by
+ * @author Chang Zi Jac
+ */
 public class SteelBrick extends Brick {
-
+    // initialize the variables
     private static final String NAME = "Steel Brick";
     private static final Color DEF_INNER = new Color(203, 203, 201);
     private static final Color DEF_BORDER = Color.BLACK;
@@ -33,23 +38,43 @@ public class SteelBrick extends Brick {
     private Random rnd;
     private Shape brickFace;
 
+    /**
+     * This method return the steel brick details
+     * @param point
+     * @param size
+     */
     public SteelBrick(Point point, Dimension size){
         super(NAME,point,size,DEF_BORDER,DEF_INNER,STEEL_STRENGTH);
         rnd = new Random();
         brickFace = super.brickFace;
     }
 
-
+    /**
+     * This method make the brick shape
+     * @param pos
+     * @param size
+     * @return Rectangle(pos,size)
+     */
     @Override
     protected Shape makeBrickFace(Point pos, Dimension size) {
         return new Rectangle(pos,size);
     }
 
+    /**
+     * This method get the brick shape
+     * @return brickFace
+     */
     @Override
     public Shape getBrick() {
         return brickFace;
     }
 
+    /**
+     * This method set the brick impact status
+     * @param point
+     * @param dir
+     * @return super.isBroken()
+     */
     public  boolean setImpact(Point2D point , int dir){
         if(super.isBroken())
             return false;
@@ -58,6 +83,9 @@ public class SteelBrick extends Brick {
         return  super.isBroken();
     }
 
+    /**
+     * This method calculate the impact
+     */
     public void impact(){
         if(rnd.nextDouble() < STEEL_PROBABILITY){
             super.impact();

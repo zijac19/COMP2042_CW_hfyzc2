@@ -3,8 +3,15 @@ package controllers;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * This class listens the keyboard input from user
+ *
+ * Refactor by
+ * @author Chang Zi Jac
+ */
 public class KeyHandler implements KeyListener{
 
+	// initialize the variables
 	public static boolean LEFT = false;
 	public static boolean RIGHT = false;
 	public static boolean SPACE = false;
@@ -13,15 +20,28 @@ public class KeyHandler implements KeyListener{
 
 	public static boolean keyreleased = false;
 
+	/**
+	 * This is an empty method
+	 */
 	public KeyHandler() {
 		
 	}
 
+	/**
+	 * This method listens the key typed by user
+	 *
+	 * @param e
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		
 	}
 
+	/**
+	 * This method listens the key pressed by user
+	 *
+	 * @param e
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyCode() == 112) {
@@ -41,6 +61,11 @@ public class KeyHandler implements KeyListener{
 		}
 	}
 
+	/**
+	 * This method listens the key released by user
+	 *
+	 * @param e
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == 112) {
