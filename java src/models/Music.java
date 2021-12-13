@@ -1,6 +1,6 @@
 package models;
 
-import handlers.JukeBox;
+import controllers.JukeBox;
 import main.Settings;
 
 public class Music {

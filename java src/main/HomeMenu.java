@@ -26,7 +26,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import models.Music;
-import handlers.MouseHandler;
+import controllers.MouseHandler;
 
 public class HomeMenu extends JComponent{
 

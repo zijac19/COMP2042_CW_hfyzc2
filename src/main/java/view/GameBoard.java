@@ -15,20 +15,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package main;
+package view;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 
-import handlers.KeyHandler;
-import handlers.MouseHandler;
+import controllers.KeyHandler;
+import controllers.MouseHandler;
 import models.Music;
 import models.Wall;
 import models.Player;
 import models.Brick;
 import models.Ball;
-import handlers.ImageLoader;
+import controllers.ImageLoader;
+import main.Controller;
+import main.Frame;
 
 import static main.Frame.frame;
 

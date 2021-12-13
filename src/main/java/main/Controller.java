@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import handlers.KeyHandler;
-import handlers.MouseHandler;
+import controllers.KeyHandler;
+import controllers.MouseHandler;
 import models.Music;
+import view.*;
 
 
 public class Controller extends JPanel implements Runnable {

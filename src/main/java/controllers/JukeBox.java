@@ -1,4 +1,4 @@
-package handlers;
+package controllers;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;

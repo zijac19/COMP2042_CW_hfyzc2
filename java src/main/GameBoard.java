@@ -21,14 +21,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 
-import handlers.KeyHandler;
-import handlers.MouseHandler;
+import controllers.KeyHandler;
+import controllers.MouseHandler;
 import models.Music;
 import models.Wall;
 import models.Player;
 import models.Brick;
 import models.Ball;
-import handlers.ImageLoader;
+import controllers.ImageLoader;
 
 import static main.Frame.frame;
 

@@ -20,12 +20,12 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 
-import handlers.KeyHandler;
-import handlers.MouseHandler;
+import controllers.KeyHandler;
+import controllers.MouseHandler;
 
 public class Frame extends JFrame{
 
-	protected static JFrame frame;
+	public static JFrame frame;
 	
 	public static int WIDTH = 500;
 	public static int HEIGHT = 513;
